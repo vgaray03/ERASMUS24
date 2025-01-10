@@ -1,13 +1,3 @@
-/*CREATE TABLE game_state (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    board_state TEXT NOT NULL,
-    player_turn INT NOT NULL,
-    is_active BOOLEAN NOT NULL,
-    scores TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);*/
-
-
 CREATE DATABASE CantStop;
 USE CantStop;
 
@@ -48,18 +38,4 @@ CREATE TABLE Progress (
     FOREIGN KEY (id_game) REFERENCES Games(id_game),
     FOREIGN KEY (id_player) REFERENCES Users(id_user)
 );
-
-SELECT * FROM Games WHERE state = 'activo';
-
-SELECT * FROM Games WHERE id_game = 1;
-
-UPDATE Progress 
-SET progress = progress + 1 
-WHERE id_game = 1 AND id_player = 1 AND column_number = 2;
-
-SELECT * FROM Progress WHERE id_game = 1 AND id_player = 1;
-
-INSERT INTO Moves (id_game, id_player, position_x, position_y) 
-VALUES (1, 1, 2, 3);
-
 
