@@ -1,4 +1,275 @@
-/*# Stylesheets
-  └── styles.css   # Main CSS file*/
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
 
-  
+@media screen and (min-width: 1000px) {
+    #game {
+        display: grid;
+        gap: 0px;
+        grid-template-rows: 4rem 300px auto 2rem;
+        grid-template-columns: 704px auto minmax(15rem, 20%);
+        width: 100%;
+        height: 100%;
+    }
+    #game > #turn-info {
+        grid-row: 1;
+        grid-column: 1 / 4;
+    }
+    #game > #dice-and-action-area {
+        grid-row: 2 / 4;
+        grid-column: 1;
+    }
+    #game > #map {
+        grid-row: 3;
+        grid-column: 2;
+    }
+    #game > #instructions {
+        grid-row: 2;
+        grid-column: 3;
+    }
+    #game > #about {
+        grid-row: 4;
+        grid-column: 1 / 3;
+    }
+
+    #turn-info { border-bottom: 2px solid lightgrey; }
+    #about { border-top: 2px solid lightgrey; }
+    #instructions, #log { border-left: 1px solid lightgrey; }
+}
+
+@media screen and (max-width: 704px) {
+    #board {
+        transform: scale(0.5, 0.5);
+    }
+}
+
+#board > div {
+    display: flex;
+    flex-direction: row;
+    flex: 0 0;
+}
+#board:hover {
+    transform: scale(1.4); /* Slightly enlarge the board */
+    transition: transform 0.3s ease; /* Smooth transition */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Shadow for emphasis */
+}
+
+.sprite {
+    z-index: 0;
+    position: relative;
+}
+
+.sprite > * {
+    position: absolute;
+}
+
+.sprite > :nth-child(1) {
+    transform: translate(0px, 0px);
+    z-index: 1;
+}
+.sprite > :nth-child(2) {
+    transform: translate(-8px, -8px);
+    z-index: 2;
+}
+.sprite > :nth-child(3) {
+    transform: translate(-16px, -16px);
+    z-index: 3;
+}
+.sprite > :nth-child(4) {
+    transform: translate(-24px, -24px);
+    z-index: 4;
+}
+.sprite > :nth-child(5) {
+    transform: translate(-32px, -32px);
+    z-index: 5;
+}
+.sprite > :nth-child(6) {
+    transform: translate(-40px, -40px);
+    z-index: 6;
+}
+
+
+#about {
+    background-color: #5561e6; /* Dark gray */
+    color: #f1f1f1; /* Light text color */
+    text-align: center;
+    padding: 1em;
+    border-top: 2px solid #6C757D; /* Accent border */
+}
+#about > * {
+    width: fit-content;
+    height: 5rem;
+    margin: auto 3em;
+}
+
+/* Dice Area Background */
+#dice-and-action-area {
+    border: 5px solid #3c0443; /* Subtle border */
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+    padding: 2em;
+    /* Background animation */
+    background: linear-gradient(45deg, #9cf0fb, #6701c1); /* Initial gradient */
+    background-size: 200% 200%; /* To enable animation */
+    animation: gradientMove 5s ease infinite; /* Infinite animation */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+}
+
+#action-area {
+    padding: 2rem;
+    width: 10rem;
+}
+.die {
+    height: 64px;
+    width: 64px;
+    margin: 10px;
+}
+.dice-option {
+    display: flex;
+    margin-bottom: 2rem;
+    height: 10rem;
+}
+.dice-option > .die {
+    margin: 5px;
+}
+.dice-option > :nth-child(2),
+.dice-option > :nth-child(4) {
+    margin-right: 20px;
+}
+.dice-option > :nth-child(5) {
+    width: 10rem;
+}
+
+.action {
+    background-color: #86b6ff; /* Change to your desired color */
+    color: white; /* Text color */
+    padding: 10px;
+    border-radius: 10px;
+    margin: 5px;
+    border: 1px solid rgb(88, 0, 100); /* Border color */
+    user-select: none;
+    font-weight: bold; /* Optional: make text bold */
+    transition: all 0.3s ease-in-out; /* Animation for hover effects */
+    cursor: pointer; /* Show pointer on hover */
+}
+.action:hover {
+    background-color: #aa496f; /* Change hover color */
+    transform: scale(1.1); /* Scale button slightly on hover */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); /* Add shadow for depth */
+}
+.action.roll {
+    background-color: #007BFF; /* Blue for Roll button */
+    border-color: #0056b3;
+}
+.action.roll:hover {
+    background-color: #0056b3;
+}
+
+.action.stop {
+    background-color: #FF5733; /* Red for End Turn button */
+    border-color: #C70039;
+}
+.action.stop:hover {
+    background-color: #C70039;
+}
+
+
+/* Top and Bottom Section Background Colors */
+#turn-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 4rem; /* Ensure sufficient height */
+    padding: 0.5rem;
+    border-bottom: 2px solid #1A237E; /* Add a border for separation */
+    z-index: 10; /* Ensure it's on top of overlapping elements */
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.5rem; /* Larger text size for visibility */
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add text shadow for emphasis */
+    background-color: #5d68e2; /* Deep blue background */
+    color: white; /* White text for contrast */
+    border-bottom: 2px solid #3949ab; /* Subtle border */
+}
+
+
+#win,
+#game-options {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    border: 3px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgb(181, 138, 255);
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+}
+
+#win {
+    height: 10rem;
+    width: 25rem;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    background: #046628;
+    border-color: #00ff40;
+    border-radius: 10px;
+    padding: 1rem;
+    animation: fadeIn 1.5s ease-in-out; /* Smooth fade-in */
+}
+
+#game-options {
+    min-height: 50%;
+    min-width: 50%;
+    padding: 2rem;
+}
+
+#game-options div {
+    padding: 1rem;
+}
+
+#game-options label {
+    text-align: center;
+    display: block;
+}
+
+#instructions {
+    animation: fadeIn 1.5s ease-in-out; /* Smooth fade-in */
+    font-family: 'Georgia', serif; /* Elegant serif font */
+    font-size: 1.2rem; /* Slightly larger font size */
+    color: #6e259c; /* Softer color for easier reading */
+    padding: 1.2em;
+    line-height: 1.8;
+}
+    
+
+/* Keyframes for fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+/* Keyframes for animated background */
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}

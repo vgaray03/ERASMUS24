@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <form id="loginForm">
+        <h2>Login</h2>
+        <input type="text" id="username" name="username" placeholder="Username" required>
+        <button type="submit">Login</button>
+        <p id="error" style="color: red; display: none;">Invalid login. Please try again.</p>
+    </form>
+
+    <script>
+        const form = document.getElementById('loginForm');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+
+            try {
+                const response = await fetch('/backend_test/api.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    window.location.href = '/index.html';
+                } else {
+                    document.getElementById('error').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error logging in:', error);
+                document.getElementById('error').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

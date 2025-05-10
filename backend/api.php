@@ -4,9 +4,30 @@
 // Enable CORS for testing (optional, required if frontend is hosted elsewhere)
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-
+session_start();
 // Include database connection
 require_once 'db.php'; // Create a separate db.php file for database connection
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_POST['username'] ?? '';
+    $password = $_POST['password'] ?? '';
+
+    $user = validateUser($username, $password);
+
+    if ($user) {
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['username'] = $user['username'];
+        header("Location: index.html");
+        exit;
+    } else {
+        echo "<script>alert('Invalid username or password.'); window.location.href = 'authent.html';</script>";
+    }
+} else {
+    header("Location: authent.html");
+    exit;
+}
+?>
+
 
 // Get the request method
 $method = $_SERVER['REQUEST_METHOD'];

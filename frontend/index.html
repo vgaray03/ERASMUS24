@@ -1,15 +1,88 @@
-//# Main HTML file for the game
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/styles.css">
-    <title>Game</title>
-</head>
-<body>
-    <div id="game-container"></div>
-    <script src="js/main.js"></script>
-</body>
+<html>
+    <head>
+        <script src="./js/gui.js"></script>
+        <script src="./js/api.js"></script>
+        <script src="./js/Game.js"></script>
+        <link rel="stylesheet" href="./css/styles.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <script>
+            fetch('/backend_test/api.php?action=check_session')
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.logged_in) {
+                        window.location.href = '/authent.html';
+                    }
+                });
+        </script>
+        <div id="game">
+            <div id="turn-info">YOUR TURN</div>
+            <div id="board"></div>
+            <div id="dice-and-action-area">
+                <div id="dice-area">
+                    <div class="dice-option">
+                        <div class="die"></div>
+                        <div class="die"></div>
+                        <div class="die"></div>
+                        <div class="die"></div>
+                        <div>
+                        </div>
+                    </div>
+                    <div class="dice-option">
+                        <div class="die"></div>
+                        <div class="die"></div>
+                        <div class="die"></div>
+                        <div class="die"></div>
+                        <div>
+                        </div>
+                    </div>
+                    <div class="dice-option">
+                        <div class="die"></div>
+                        <div class="die"></div>
+                        <div class="die"></div>
+                        <div class="die"></div>
+                        <div>
+                        </div>
+                    </div>
+                </div>
+                <div id="action-area">
+                    <div class="action roll">Roll</div>
+                    <div class="action stop">End Turn</div>
+                </div>
+            </div>
+            <div id="instructions">
+                <h2>How to Play</h2>
+                <p>The goal is to be the first player to reach the end of three tracks with your tokens. During your turn, you can either "Roll" to push your luck or "Stop" to secure your progress.</p>
+                <ol>
+                    <li>Each roll consists of four dice. Combine the results into two pairs, forming two sums. For example, rolling 1, 2, 3, and 4, you might choose 3 (1 + 2) and 7 (3 + 4).</li>
+                    <li>Move on the tracks corresponding to the sums chosen. If the track has no black marker, place one at the start or just ahead of your existing marker.</li>
+                    <li>Only three black markers are available. If none are left, and you need a new one, you can't advance on that track.</li>
+                    <li>If you can't move on either track, your turn ends and you lose the progress made that turn.</li>
+                    <li>To secure progress, choose "Stop" before rolling again. This moves your tokens to replace the black markers.</li>
+                    <li>If you finish a track, it is blocked, and no one can advance on it further. Win by completing three tracks!</li>
+                </ol>
+            </div>
+            <div id="log"></div>
+            <div id="about"><div>CAN'T STOP board game. <a href="https://boardgamegeek.com/boardgame/41/cant-stop">Here</a> is a link to the original game. The source code is <a href="https://github.com/iee-ihu-gr-course1941/ERASMUS24/tree/main">on github</a></div></div>
+            <div id="win" style="display: none;">WINNER</div>
+            <div id="game-options">
+                <div>
+                    <label>Local Play</label>
+                    <div class="action" data-players="1" data-online="false">Single Player</div>
+                    <div class="action" data-players="2" data-online="false">2 Players</div>
+                    <div class="action" data-players="3" data-online="false">3 Players</div>
+                    <div class="action" data-players="4" data-online="false">4 Players</div>
+                    <div class="action" data-players="5" data-online="false">5 Players</div>
+                </div>
+                <div>
+                    <label>Online Multiplayer</label>
+                    <div class="action" data-players="2" data-online="true">2 Players</div>
+                    <div class="action" data-players="3" data-online="true">3 Players</div>
+                    <div class="action" data-players="4" data-online="true">4 Players</div>
+                    <div class="action" data-players="5" data-online="true">5 Players</div>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>
